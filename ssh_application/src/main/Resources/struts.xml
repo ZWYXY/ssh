@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+    <!-- 控制上传文件大小 -->
+    <constant name="struts.multipart.maxSize" value="209715200"/>
+    
+    <package name="com.zr.action" namespace="/"  extends="struts-default">
+        <!-- struts2.5版本以上 需要添加此项 以访问action 和它里面的方法-->
+        <global-allowed-methods>regex:.*</global-allowed-methods>
+
+        <action name="user_*" method="{1}" class="userAction"><!-- {}中取 1 代表第一个 *-->
+            <result name="login_success">/index.htm</result>
+            <result name="login">/login.jsp</result>
+        </action>
+
+        <action name="customer_*" method="{1}" class="customerAction">
+            <!-- 到添加页面 -->
+            <result name="toAddPage">/jsp/customer/add.jsp</result>
+            <!-- 完成添加后跳转到客户list页面 -->
+            <result name="add" type="redirectAction">customer_list.action</result>
+            <!-- 完成删除后跳转到客户list页面 -->
+            <result name="delete" type="redirectAction">customer_list.action</result>
+            <!-- 到修改页面 -->
+            <result name="showCustomer" > /jsp/customer/edit.jsp</result>
+            <!-- 完成修改后跳转到客户list页面  tips:type默认值dispatcher -->
+            <result name="update" type="redirectAction" >customer_list</result>
+            <!-- 客户list页面 -->
+            <result name="list" >/jsp/customer/list.jsp</result>
+            <!-- 完成条件查询后，跳转到list页面-->
+            <result name="listCondition">/jsp/customer/list.jsp</result>
+            <!-- 到多 条件组合客户查询页面-->
+            <result name="toSelectCustomerPage">/jsp/select/select.jsp</result>
+            <!-- 完成 查询后跳转到客户list页面-->
+            <result name="moreCondition">/jsp/customer/list.jsp</result>
+            <!-- 完成按客户来源统计客户数量后，转到countBycustSources 的 list页面-->
+            <result name="countBycustSources">/jsp/customer/groupBycustSourceList.jsp</result>
+            <!-- 完成按客户等级统计客户数量后，转到countBycustLevel 的 list页面-->
+            <result name="countBycustLevel">/jsp/customer/groupBycustLevelList.jsp</result>
+
+        </action>
+
+        <action name="linkMan_*" method="{1}" class="linkManAction">
+
+            <!-- input是struts2错误处理机制 文件上传中 如果文件超过限制大小  自动返回结果 结果是input -->
+            <result name="input">/jsp/error.jsp</result>
+
+            <!--到添加页面-->
+            <result name="toAddPage">/jsp/linkman/add.jsp</result>
+            <!-- 增加linkMan-->
+            <result name="addLinkMan">/jsp/success.jsp</result>
+            <!-- 到联系人列表-->
+            <result name="list">/jsp/linkman/list.jsp</result>
+            <!-- to modify page-->
+            <result name="modify">/jsp/linkman/edit.jsp</result>
+            <!-- after modified-->
+            <result name="update" type="redirectAction">linkMan_list.action</result>
+            <!-- delete-->
+            <result name="delete" type="redirectAction">linkMan_list.action</result>
+            <!-- toMoreConditionPage-->
+            <result name="toMoreConditionPage">/jsp/select/selectLkm.jsp</result>
+            <!-- moreCondition-->
+            <result name="moreCondition">/jsp/linkman/list.jsp</result>
+        </action>
+
+        <action name="visit_*" method="{1}" class="visitAction">
+            <!-- 到添加页面-->
+            <result name="toAddPage">/jsp/visit/add.jsp</result>
+            <!-- 添加成功-->
+            <result name="add" type="redirectAction">visit_list.action</result>
+            <!-- 到list页面-->
+            <result name="list">/jsp/visit/list.jsp</result>
+        </action>
+
+
+
+
+
+    </package>
+
+
+</struts>

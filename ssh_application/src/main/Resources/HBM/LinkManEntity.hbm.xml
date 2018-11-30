@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.zr.entity.LinkMan" table="linkMan" schema="ssh">
+        <id name="lkmId" column="lkmId">
+            <generator class="native"/>
+        </id>
+        <property name="lkmName" column="lkmName"/>
+        <property name="lkmGender" column="lkmGender"/>
+        <property name="lkmPhone" column="lkmPhone"/>
+
+        <!-- 联系人所属客户-->
+        <!--
+            name属性：联系人中定义的 CustomerEntity 对象的 实例 customerEntity
+            class属性：此对象类的全路径
+            column属性：刚才在CustomerEntity.hbm.xml中 set 标签中 key 标签中的 column 属性值
+        -->
+        <many-to-one name="customerEntity" class="com.zr.entity.CustomerEntity" column="clid" lazy="false"/>
+
+
+    </class>
+</hibernate-mapping>

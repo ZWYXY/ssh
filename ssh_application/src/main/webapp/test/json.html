@@ -1,0 +1,35 @@
+<script type="text/javascript">
+	//1.对象形式json数据格式
+	var jsonx = {"username":"abc", "age":20,"password":"12345"};
+	//解析	
+	//根据username得到它的值
+	//alert(jsonx.username);
+
+	document.write(jsonx.username);
+	document.write("<br/>");
+	document.write(jsonx.age);
+	
+	document.write("<hr/>");
+	
+	//2. 数组形式json数据格式
+	var jsonx2 = [{"username":"abc", "age":20,"password":"12345"},
+				 {"username":"abd", "age":21,"password":"12346"},
+				 {"username":"abe", "age":22,"password":"12347"},
+				 {"username":"abf", "age":23,"password":"12348"},
+				 {"username":"abg", "age":24,"password":"12349"}];
+				 
+	//解析数组格式
+	for(var i = 0; i < jsonx2.length; i++){
+		//得到数组里面的每个对象
+		var jsonObjectx = jsonx2[i];
+		document.write(jsonObjectx.username);
+		document.write("<br/>");
+		document.write(jsonObjectx.age);
+		document.write("<br/>");
+		document.write("<hr/>");
+		
+	}
+	
+	
+	
+</script>

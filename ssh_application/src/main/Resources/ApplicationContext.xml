@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- 关于↑这个网址的问题,在IDEA中 写了标签它会自动帮你引入url 可能还会需要 在project structure 中配置 框架配置文件-->
+
+   <!-- 开启注解扫描-->
+   <context:component-scan base-package="com.zr"/>
+   <!-- 此外，还有这种方式 ———— 开启只扫描属性上面的注解-->
+   <!-- <context:annotation-config/>-->
+
+<!-- 配置 C3P0 连接池 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="jdbcUrl"
+                  value="jdbc:mysql://localhost:3306/ssh?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true"/>
+        <property name="user" value="root"/>
+        <property name="password" value="1142165668"/>
+
+        <property name="initialPoolSize" value="6"/>
+        <property name="maxPoolSize" value="10"/>
+    </bean>
+
+<!-- sessionFactory  创建-->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:hibernate.cfg.xml"/>
+    </bean>
+
+<!-- 配置事务-->
+    <!-- 第一步 配置事务管理器-->
+    <bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    <!-- 第二步 开启事务注解-->
+    <tx:annotation-driven transaction-manager="hibernateTransactionManager"/>
+
+
+<!--普通bean创建-->
+    <bean id="userAction" class="com.zr.action.UserAction" scope="prototype">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="userService" class="com.zr.service.UserService">
+        <property name="userDao" ref="userDaoImpl"/>
+    </bean>
+
+    <bean id="userDaoImpl" class="com.zr.dao.UserDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+
+<!--
+    上面这个bean 是以下两步的简化，方式就是通过继承HibernateDaoSupport类实现简化
+
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="userDaoImpl" class="com.zr.dao.UserDaoImpl">
+        需要在userDaoImpl 中定义hibernateTemplate 并提供set方法
+        <property name="hibernateTemplate" ref="hibernateTemplate"/>
+    </bean>
+-->
+
+
+
+
+    <import resource="classpath:SpringAction/customer.xml"/>
+    <import resource="classpath:SpringAction/linkMan.xml"/><!--其实我用了注解，没必要再搞这个配置文件-->
+
+</beans>

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.zr.entity.VisitEntity" table="visit" schema="ssh">
+        <id name="vid" column="vid">
+            <generator class="native"/>
+        </id>
+        <property name="address" column="address"/>
+        <property name="times" column="times"/>
+
+        <many-to-one name="customerEntity" class="com.zr.entity.CustomerEntity" column="customerId"/>
+        <many-to-one name="userEntity" class="com.zr.entity.UserEntity" column="userId"/>
+    </class>
+</hibernate-mapping>

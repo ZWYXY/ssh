@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.zr.entity.CustomerEntity" table="customer" schema="ssh">
+        <id name="cid" column="cid">
+            <generator class="native"/>
+        </id>
+        <property name="custName" column="custName"/>
+        <!--<property name="custLevel" column="custLevel"/>-->
+        <property name="custSource" column="custSource"/>
+        <property name="custPhone" column="custPhone"/>
+        <property name="custLinkman" column="custLinkman"/>
+
+        
+        <!-- 表示客户所有的联系人-->
+        <set name="setLinkMan" inverse="true" cascade="delete">
+            <!-- name属性：Customer中声明的联系人Set集合名称
+                 inverse属性：属性值 true和false 默认为false  作用：是否放弃外键维护，true 表示放弃维护
+                 cascade属性：属性值 delete表示级联删除，删除客户，把他对应的联系人也删掉
+             -->
+            <key column="clid"/> <!-- column 属性 ：外键名称 自拟-->
+            <one-to-many class="com.zr.entity.LinkMan"/> <!-- class 属性：Set<> 所中写的实体类名称 -->
+        </set>
+
+        <!-- 表示 所有拜访记录-->
+        <set name="visitEntitySet">
+            <key column="customerId"/>
+            <one-to-many class="com.zr.entity.VisitEntity"/>
+        </set>
+
+        <many-to-one name="dataDictionary" class="com.zr.entity.DataDictionary" column="ddId"/>
+
+    </class>
+</hibernate-mapping>
