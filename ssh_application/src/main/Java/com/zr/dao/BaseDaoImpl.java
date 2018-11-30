@@ -51,7 +51,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
 
     @Override
     public List<T> findAll() {
-        System.out.println("Hello Git");//Wh
+        System.out.println("Hello Git");//Who
         return (List<T>) this.getHibernateTemplate().find("from " + clazzType.getSimpleName());
     }
 }
